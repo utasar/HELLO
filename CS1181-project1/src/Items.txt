@@ -1,0 +1,7 @@
+Cell phone, 0.25, 600
+Gaming laptop, 10, 2000
+Jewelry, 0.5, 500
+Kindle, 0.5, 300
+Video game console, 3, 500
+Small cuckoo clock, 5, 1500
+Silver paperweight, 2, 400
