@@ -12,7 +12,7 @@ Two-factor authentication is a security verification process that confirms a use
 
 List of Steps:
 
-The user enters a username and password into the system.
+1. The user enters a username and password into the system.
 
 2. The system verifies the primary credential (password).
 
