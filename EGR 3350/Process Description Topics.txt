@@ -1,0 +1,29 @@
+Major:
+Computer Science
+
+Topic:
+How Two-Factor Authentication Verifies a User
+
+Category of Process:
+Conceptual Process
+
+Technical Definition (Process Definition):
+Two-factor authentication is a security verification process that confirms a user’s identity by requiring two separate forms of authentication credentials before granting access to a system or account.
+
+List of Steps:
+
+The user enters a username and password into the system.
+
+2. The system verifies the primary credential (password).
+
+3. The system generates or requests a secondary authentication factor (such as a one-time code).
+
+4. The user provides the secondary authentication factor.
+
+5. The system validates the second factor and grants or denies access.
+
+How It Relates to My Major:
+As a Computer Science major, understanding authentication processes is essential because secure system design is a fundamental part of software development and cybersecurity. Two-factor authentication is widely used in web applications, enterprise systems, and cloud services to protect user data and prevent unauthorized access.
+
+How It Relates to My Major:
+As a Computer Science major, understanding authentication processes is essential because secure system design is a fundamental part of software development and cybersecurity. Two-factor authentication is widely used in web applications, enterprise systems, and cloud services to protect user data and prevent unauthorized access.
