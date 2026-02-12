@@ -24,6 +24,3 @@ The user enters a username and password into the system.
 
 How It Relates to My Major:
 As a Computer Science major, understanding authentication processes is essential because secure system design is a fundamental part of software development and cybersecurity. Two-factor authentication is widely used in web applications, enterprise systems, and cloud services to protect user data and prevent unauthorized access.
-
-How It Relates to My Major:
-As a Computer Science major, understanding authentication processes is essential because secure system design is a fundamental part of software development and cybersecurity. Two-factor authentication is widely used in web applications, enterprise systems, and cloud services to protect user data and prevent unauthorized access.
