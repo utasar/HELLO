@@ -1,3 +1,3 @@
 Wright State University 
-Computer Science, almost every class I attended
+ almost everything I attended
 free Computer Science Degree
