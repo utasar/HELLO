@@ -1,0 +1,395 @@
+achar@UtsavJarvis:~/ceg3400/12-scapy$ sudo scapy
+INFO: Can't import PyX. Won't be able to use psdump() or pdfdump().
+
+                     aSPY//YASa
+             apyyyyCY//////////YCa       |
+            sY//////YSpcs  scpCY//Pp     | Welcome to Scapy
+ ayp ayyyyyyySCP//Pp           syY//C    | Version 2.5.0
+ AYAsAYYYYYYYY///Ps              cY//S   |
+         pCCCCY//p          cSSps y//Y   | https://github.com/secdev/scapy
+         SPPPP///a          pP///AC//Y   |
+              A//A            cyP////C   | Have fun!
+              p///Ac            sC///a   |
+              P////YCpc           A//A   | Craft me if you can.
+       scccccp///pSP///p          p//Y   |                   -- IPv6 layer
+      sY/////////y  caa           S//P   |
+       cayCyayP//Ya              pY/Ya
+        sY/PsY////YCc          aC//Yp
+         sc  sccaCY//PCypaapyCP//YSs
+                  spCPY//////YPSps
+                       ccaacs
+                                       using IPython 8.20.0
+>>> capture = sniff(count=10)
+>>> ofp = IP()
+...: ofp.show()
+###[ IP ]###
+  version   = 4
+  ihl       = None
+  tos       = 0x0
+  len       = None
+  id        = 1
+  flags     =
+  frag      = 0
+  ttl       = 64
+  proto     = hopopt
+  chksum    = None
+  src       = 127.0.0.1
+  dst       = 127.0.0.1
+  \options   \
+
+>>> ofp = IP(dst="8.8.8.8")
+>>> ofp.show()
+###[ IP ]###
+  version   = 4
+  ihl       = None
+  tos       = 0x0
+  len       = None
+  id        = 1
+  flags     =
+  frag      = 0
+  ttl       = 64
+  proto     = hopopt
+  chksum    = None
+  src       = 172.21.245.130
+  dst       = 8.8.8.8
+  \options   \
+
+>>> ofudp = ofp/UDP()
+>>> ofudp=IP(dest="8.8.8.8")/UDP()
+---------------------------------------------------------------------------
+AttributeError                            Traceback (most recent call last)
+Cell In[6], line 1
+----> 1 ofudp=IP(dest="8.8.8.8")/UDP()
+
+File /usr/lib/python3/dist-packages/scapy/base_classes.py:399, in Packet_metaclass.__call__(cls, *args, **kargs)
+    392         cls = config.conf.raw_layer  # type: ignore
+    393 i = cls.__new__(
+    394     cls,  # type: ignore
+    395     cls.__name__,
+    396     cls.__bases__,
+    397     cls.__dict__
+    398 )
+--> 399 i.__init__(*args, **kargs)
+    400 return i
+
+File /usr/lib/python3/dist-packages/scapy/packet.py:188, in Packet.__init__(self, _pkt, post_transform, _internal, _underlayer, _parent, **fields)
+    185         self.fields[fname] = value if isinstance(value, RawVal) else \
+    186             self.get_field(fname).any2i(self, value)
+    187         continue
+--> 188     raise AttributeError(fname)
+    189 if isinstance(post_transform, list):
+    190     self.post_transforms = post_transform
+
+AttributeError: dest
+>>> ofp.show()
+...: ofudp.show()
+###[ IP ]###
+  version   = 4
+  ihl       = None
+  tos       = 0x0
+  len       = None
+  id        = 1
+  flags     =
+  frag      = 0
+  ttl       = 64
+  proto     = hopopt
+  chksum    = None
+  src       = 172.21.245.130
+  dst       = 8.8.8.8
+  \options   \
+
+###[ IP ]###
+  version   = 4
+  ihl       = None
+  tos       = 0x0
+  len       = None
+  id        = 1
+  flags     =
+  frag      = 0
+  ttl       = 64
+  proto     = udp
+  chksum    = None
+  src       = 172.21.245.130
+  dst       = 8.8.8.8
+  \options   \
+###[ UDP ]###
+     sport     = domain
+     dport     = domain
+     len       = None
+     chksum    = None
+
+>>> ofdnsp=ofudp/DNS()
+...: ofdnsp.show()
+###[ IP ]###
+  version   = 4
+  ihl       = None
+  tos       = 0x0
+  len       = None
+  id        = 1
+  flags     =
+  frag      = 0
+  ttl       = 64
+  proto     = udp
+  chksum    = None
+  src       = 172.21.245.130
+  dst       = 8.8.8.8
+  \options   \
+###[ UDP ]###
+     sport     = domain
+     dport     = domain
+     len       = None
+     chksum    = None
+###[ DNS ]###
+        id        = 0
+        qr        = 0
+        opcode    = QUERY
+        aa        = 0
+        tc        = 0
+        rd        = 1
+        ra        = 0
+        z         = 0
+        ad        = 0
+        cd        = 0
+        rcode     = ok
+        qdcount   = 1
+        ancount   = 0
+        nscount   = 0
+        arcount   = 0
+        \qd        \
+         |###[ DNS Question Record ]###
+         |  qname     = 'www.example.com.'
+         |  qtype     = A
+         |  qclass    = IN
+        an        = None
+        ns        = None
+        ar        = None
+
+>>> ofdns= ofudp/DNS(rd=1,qd=DNSQR(qname="www.google.com"))
+>>> ofdns.show()
+###[ IP ]###
+  version   = 4
+  ihl       = None
+  tos       = 0x0
+  len       = None
+  id        = 1
+  flags     =
+  frag      = 0
+  ttl       = 64
+  proto     = udp
+  chksum    = None
+  src       = 172.21.245.130
+  dst       = 8.8.8.8
+  \options   \
+###[ UDP ]###
+     sport     = domain
+     dport     = domain
+     len       = None
+     chksum    = None
+###[ DNS ]###
+        id        = 0
+        qr        = 0
+        opcode    = QUERY
+        aa        = 0
+        tc        = 0
+        rd        = 1
+        ra        = 0
+        z         = 0
+        ad        = 0
+        cd        = 0
+        rcode     = ok
+        qdcount   = 1
+        ancount   = 0
+        nscount   = 0
+        arcount   = 0
+        \qd        \
+         |###[ DNS Question Record ]###
+         |  qname     = 'www.google.com.'
+         |  qtype     = A
+         |  qclass    = IN
+        an        = None
+        ns        = None
+        ar        = None
+
+>>> response = sr(ofdns)
+Begin emission:
+Finished sending 1 packets.
+..........................
+
+
+
+
+.pkt = IP(dst="8.8.8.8")/UDP()/DNS(rd=1, qd=DNSQR(qname="www.google.com"))
+ans, unans = sr(pkt)
+ans[0][1].show()
+
+
+
+
+
+^X
+
+
+
+
+
+
+
+
+........................^Z
+[3]+  Stopped                 sudo scapy
+achar@UtsavJarvis:~/ceg3400/12-scapy$ sudo scapy
+INFO: Can't import PyX. Won't be able to use psdump() or pdfdump().
+
+                     aSPY//YASa
+             apyyyyCY//////////YCa       |
+            sY//////YSpcs  scpCY//Pp     | Welcome to Scapy
+ ayp ayyyyyyySCP//Pp           syY//C    | Version 2.5.0
+ AYAsAYYYYYYYY///Ps              cY//S   |
+         pCCCCY//p          cSSps y//Y   | https://github.com/secdev/scapy
+         SPPPP///a          pP///AC//Y   |
+              A//A            cyP////C   | Have fun!
+              p///Ac            sC///a   |
+              P////YCpc           A//A   | We are in France, we say Skappee.
+       scccccp///pSP///p          p//Y   | OK? Merci.
+      sY/////////y  caa           S//P   |             -- Sebastien Chabal
+       cayCyayP//Ya              pY/Ya   |
+        sY/PsY////YCc          aC//Yp
+         sc  sccaCY//PCypaapyCP//YSs
+                  spCPY//////YPSps
+                       ccaacs
+                                       using IPython 8.20.0
+>>> pkt = IP(dst="8.8.8.8")/UDP()/DNS(rd=1, qd=DNSQR(qname="www.google.com"))
+...: ans, unans = sr(pkt)
+...: ans[0][1].show()
+...:
+Begin emission:
+Finished sending 1 packets.
+.......
+
+
+...............................................................
+ans[0][1].show()
+.............^C
+Received 83 packets, got 0 answers, remaining 1 packets
+---------------------------------------------------------------------------
+IndexError                                Traceback (most recent call last)
+Cell In[1], line 3
+      1 pkt = IP(dst="8.8.8.8")/UDP()/DNS(rd=1, qd=DNSQR(qname="www.google.com"))
+      2 ans, unans = sr(pkt)
+----> 3 ans[0][1].show()
+
+File /usr/lib/python3/dist-packages/scapy/plist.py:176, in _PacketList.__getitem__(self, item)
+    173 if isinstance(item, slice):
+    174     return self.__class__(self.res.__getitem__(item),
+    175                           name="mod %s" % self.listname)
+--> 176 return self.res.__getitem__(item)
+
+IndexError: list index out of range
+>>> pkt = IP(dst="130.108.128.200")/UDP()/DNS(rd=1, qd=DNSQR(qname="www.google.com"))
+>>> response =sr1(pkt, timeout=5)
+Begin emission:
+Finished sending 1 packets.
+.*
+Received 2 packets, got 1 answers, remaining 0 packets
+>>> response.show()
+###[ IP ]###
+  version   = 4
+  ihl       = 5
+  tos       = 0x0
+  len       = 188
+  id        = 3074
+  flags     =
+  frag      = 0
+  ttl       = 59
+  proto     = udp
+  chksum    = 0xce62
+  src       = 130.108.128.200
+  dst       = 172.21.245.130
+  \options   \
+###[ UDP ]###
+     sport     = domain
+     dport     = domain
+     len       = 168
+     chksum    = 0xfe27
+###[ DNS ]###
+        id        = 0
+        qr        = 1
+        opcode    = QUERY
+        aa        = 0
+        tc        = 0
+        rd        = 1
+        ra        = 1
+        z         = 0
+        ad        = 0
+        cd        = 0
+        rcode     = ok
+        qdcount   = 1
+        ancount   = 8
+        nscount   = 0
+        arcount   = 0
+        \qd        \
+         |###[ DNS Question Record ]###
+         |  qname     = 'www.google.com.'
+         |  qtype     = A
+         |  qclass    = IN
+        \an        \
+         |###[ DNS Resource Record ]###
+         |  rrname    = 'www.google.com.'
+         |  type      = A
+         |  rclass    = IN
+         |  ttl       = 124
+         |  rdlen     = 4
+         |  rdata     = 142.251.152.119
+         |###[ DNS Resource Record ]###
+         |  rrname    = 'www.google.com.'
+         |  type      = A
+         |  rclass    = IN
+         |  ttl       = 124
+         |  rdlen     = 4
+         |  rdata     = 142.251.153.119
+         |###[ DNS Resource Record ]###
+         |  rrname    = 'www.google.com.'
+         |  type      = A
+         |  rclass    = IN
+         |  ttl       = 124
+         |  rdlen     = 4
+         |  rdata     = 142.251.154.119
+         |###[ DNS Resource Record ]###
+         |  rrname    = 'www.google.com.'
+         |  type      = A
+         |  rclass    = IN
+         |  ttl       = 124
+         |  rdlen     = 4
+         |  rdata     = 142.251.157.119
+         |###[ DNS Resource Record ]###
+         |  rrname    = 'www.google.com.'
+         |  type      = A
+         |  rclass    = IN
+         |  ttl       = 124
+         |  rdlen     = 4
+         |  rdata     = 142.251.156.119
+         |###[ DNS Resource Record ]###
+         |  rrname    = 'www.google.com.'
+         |  type      = A
+         |  rclass    = IN
+         |  ttl       = 124
+         |  rdlen     = 4
+         |  rdata     = 142.251.151.119
+         |###[ DNS Resource Record ]###
+         |  rrname    = 'www.google.com.'
+         |  type      = A
+         |  rclass    = IN
+         |  ttl       = 124
+         |  rdlen     = 4
+         |  rdata     = 142.251.150.119
+         |###[ DNS Resource Record ]###
+         |  rrname    = 'www.google.com.'
+         |  type      = A
+         |  rclass    = IN
+         |  ttl       = 124
+         |  rdlen     = 4
+         |  rdata     = 142.251.155.119
+        ns        = None
+        ar        = None
+
+>>>

@@ -1,0 +1,335 @@
+achar@UtsavJarvis:~/ceg3400/12-scapy$ sudo scapy
+INFO: Can't import PyX. Won't be able to use psdump() or pdfdump().
+
+                     aSPY//YASa
+             apyyyyCY//////////YCa       |
+            sY//////YSpcs  scpCY//Pp     | Welcome to Scapy
+ ayp ayyyyyyySCP//Pp           syY//C    | Version 2.5.0
+ AYAsAYYYYYYYY///Ps              cY//S   |
+         pCCCCY//p          cSSps y//Y   | https://github.com/secdev/scapy
+         SPPPP///a          pP///AC//Y   |
+              A//A            cyP////C   | Have fun!
+              p///Ac            sC///a   |
+              P////YCpc           A//A   | Wanna support scapy? Star us on
+       scccccp///pSP///p          p//Y   | GitHub!
+      sY/////////y  caa           S//P   |             -- Satoshi Nakamoto
+       cayCyayP//Ya              pY/Ya   |
+        sY/PsY////YCc          aC//Yp
+         sc  sccaCY//PCypaapyCP//YSs
+                  spCPY//////YPSps
+                       ccaacs
+                                       using IPython 8.20.0
+
+>>> capture = sniff(count=10)
+>>> capture.show()
+0000 Ether / IP / UDP / NTP v??, ??
+0001 Ether / IP / UDP / NTP v??, ??
+0002 Ether / IP / UDP / DNS Qry "b'U8000F-d5db0996c7cb0309bc2829b1ace8c7e3._googlecast._tcp.local.'"
+0003 Ether / IPv6 / UDP / DNS Qry "b'U8000F-d5db0996c7cb0309bc2829b1ace8c7e3._googlecast._tcp.local.'"
+0004 Ether / IP / UDP / DNS Qry "b'Q70F-196c2443341456a72827e5d1cd60aed6._googlecast._tcp.local.'"
+0005 Ether / IPv6 / UDP / DNS Qry "b'Q70F-196c2443341456a72827e5d1cd60aed6._googlecast._tcp.local.'"
+0006 Ether / IP / UDP / DNS Qry "b'V655-G9-5dafd01cc29bcc6d5003c8825efe5bdc._googlecast._tcp.local.'"
+0007 Ether / IPv6 / UDP / DNS Qry "b'V655-G9-5dafd01cc29bcc6d5003c8825efe5bdc._googlecast._tcp.local.'"
+0008 Ether / IP / UDP / DNS Qry "b'V4K43M-0804-e37e7a6ca822825ff29c4c80b024b364._googlecast._tcp.local.'"
+0009 Ether / IPv6 / UDP / DNS Qry "b'V4K43M-0804-e37e7a6ca822825ff29c4c80b024b364._googlecast._tcp.local.'"
+
+>>> ofp = IP()
+>>> ofp.show()
+###[ IP ]###
+  version   = 4
+  ihl       = None
+  tos       = 0x0
+  len       = None
+  id        = 1
+  flags     =
+  frag      = 0
+  ttl       = 64
+  proto     = hopopt
+  chksum    = None
+  src       = 127.0.0.1
+  dst       = 127.0.0.1
+  \options   \
+
+>>> ofp = IP(dst="8.8.8.8")
+>>> ofp.show()
+###[ IP ]###
+  version   = 4
+  ihl       = None
+  tos       = 0x0
+  len       = None
+  id        = 1
+  flags     =
+  frag      = 0
+  ttl       = 64
+  proto     = hopopt
+  chksum    = None
+  src       = 172.21.245.130
+  dst       = 8.8.8.8
+  \options   \
+
+>>> ofudp = ofp/UDP()
+>>> ofudp=IP(dest="8.8.8.8")/UDP()
+---------------------------------------------------------------------------
+AttributeError                            Traceback (most recent call last)
+Cell In[6], line 1
+----> 1 ofudp=IP(dest="8.8.8.8")/UDP()
+
+File /usr/lib/python3/dist-packages/scapy/base_classes.py:399, in Packet_metaclass.__call__(cls, *args, **kargs)
+    392         cls = config.conf.raw_layer  # type: ignore
+    393 i = cls.__new__(
+    394     cls,  # type: ignore
+    395     cls.__name__,
+    396     cls.__bases__,
+    397     cls.__dict__
+    398 )
+--> 399 i.__init__(*args, **kargs)
+    400 return i
+
+File /usr/lib/python3/dist-packages/scapy/packet.py:188, in Packet.__init__(self, _pkt, post_transform, _internal, _underlayer, _parent, **fields)
+    185         self.fields[fname] = value if isinstance(value, RawVal) else \
+    186             self.get_field(fname).any2i(self, value)
+    187         continue
+--> 188     raise AttributeError(fname)
+    189 if isinstance(post_transform, list):
+    190     self.post_transforms = post_transform
+
+AttributeError: dest
+
+>>> ofp.show()
+>>> ofudp.show()
+###[ IP ]###
+  version   = 4
+  ihl       = None
+  tos       = 0x0
+  len       = None
+  id        = 1
+  flags     =
+  frag      = 0
+  ttl       = 64
+  proto     = hopopt
+  chksum    = None
+  src       = 172.21.245.130
+  dst       = 8.8.8.8
+  \options   \
+
+###[ IP ]###
+  version   = 4
+  ihl       = None
+  tos       = 0x0
+  len       = None
+  id        = 1
+  flags     =
+  frag      = 0
+  ttl       = 64
+  proto     = udp
+  chksum    = None
+  src       = 172.21.245.130
+  dst       = 8.8.8.8
+  \options   \
+###[ UDP ]###
+     sport     = domain
+     dport     = domain
+     len       = None
+     chksum    = None
+
+>>> ofdnsp=ofudp/DNS()
+>>> ofdnsp.show()
+###[ IP ]###
+  version   = 4
+  ihl       = None
+  tos       = 0x0
+  len       = None
+  id        = 1
+  flags     =
+  frag      = 0
+  ttl       = 64
+  proto     = udp
+  chksum    = None
+  src       = 172.21.245.130
+  dst       = 8.8.8.8
+  \options   \
+###[ UDP ]###
+     sport     = domain
+     dport     = domain
+     len       = None
+     chksum    = None
+###[ DNS ]###
+        id        = 0
+        qr        = 0
+        opcode    = QUERY
+        aa        = 0
+        tc        = 0
+        rd        = 1
+        ra        = 0
+        z         = 0
+        ad        = 0
+        cd        = 0
+        rcode     = ok
+        qdcount   = 1
+        ancount   = 0
+        nscount   = 0
+        arcount   = 0
+        \qd        \
+         |###[ DNS Question Record ]###
+         |  qname     = 'www.example.com.'
+         |  qtype     = A
+         |  qclass    = IN
+        an        = None
+        ns        = None
+        ar        = None
+
+>>> ofdns= ofudp/DNS(rd=1,qd=DNSQR(qname="www.google.com"))
+>>> ofdns.show()
+###[ IP ]###
+  version   = 4
+  ihl       = None
+  tos       = 0x0
+  len       = None
+  id        = 1
+  flags     =
+  frag      = 0
+  ttl       = 64
+  proto     = udp
+  chksum    = None
+  src       = 172.21.245.130
+  dst       = 8.8.8.8
+  \options   \
+###[ UDP ]###
+     sport     = domain
+     dport     = domain
+     len       = None
+     chksum    = None
+###[ DNS ]###
+        id        = 0
+        qr        = 0
+        opcode    = QUERY
+        aa        = 0
+        tc        = 0
+        rd        = 1
+        ra        = 0
+        z         = 0
+        ad        = 0
+        cd        = 0
+        rcode     = ok
+        qdcount   = 1
+        ancount   = 0
+        nscount   = 0
+        arcount   = 0
+        \qd        \
+         |###[ DNS Question Record ]###
+         |  qname     = 'www.google.com.'
+         |  qtype     = A
+         |  qclass    = IN
+        an        = None
+        ns        = None
+        ar        = None
+
+# Special task: one-liner packet creation, sent to campus nameserver
+>>> pkt = IP(dst="130.108.128.200")/UDP()/DNS(rd=1, qd=DNSQR(qname="www.google.com"))
+>>> response = sr1(pkt, timeout=5)
+Begin emission:
+Finished sending 1 packets.
+.*
+Received 2 packets, got 1 answers, remaining 0 packets
+>>> response.show()
+###[ IP ]###
+  version   = 4
+  ihl       = 5
+  tos       = 0x0
+  len       = 188
+  id        = 38415
+  flags     =
+  frag      = 0
+  ttl       = 59
+  proto     = udp
+  chksum    = 0x4455
+  src       = 130.108.128.200
+  dst       = 172.21.245.130
+  \options   \
+###[ UDP ]###
+     sport     = domain
+     dport     = domain
+     len       = 168
+     chksum    = 0xfe57
+###[ DNS ]###
+        id        = 0
+        qr        = 1
+        opcode    = QUERY
+        aa        = 0
+        tc        = 0
+        rd        = 1
+        ra        = 1
+        z         = 0
+        ad        = 0
+        cd        = 0
+        rcode     = ok
+        qdcount   = 1
+        ancount   = 8
+        nscount   = 0
+        arcount   = 0
+        \qd        \
+         |###[ DNS Question Record ]###
+         |  qname     = 'www.google.com.'
+         |  qtype     = A
+         |  qclass    = IN
+        \an        \
+         |###[ DNS Resource Record ]###
+         |  rrname    = 'www.google.com.'
+         |  type      = A
+         |  rclass    = IN
+         |  ttl       = 118
+         |  rdlen     = 4
+         |  rdata     = 142.251.157.119
+         |###[ DNS Resource Record ]###
+         |  rrname    = 'www.google.com.'
+         |  type      = A
+         |  rclass    = IN
+         |  ttl       = 118
+         |  rdlen     = 4
+         |  rdata     = 142.251.150.119
+         |###[ DNS Resource Record ]###
+         |  rrname    = 'www.google.com.'
+         |  type      = A
+         |  rclass    = IN
+         |  ttl       = 118
+         |  rdlen     = 4
+         |  rdata     = 142.251.153.119
+         |###[ DNS Resource Record ]###
+         |  rrname    = 'www.google.com.'
+         |  type      = A
+         |  rclass    = IN
+         |  ttl       = 118
+         |  rdlen     = 4
+         |  rdata     = 142.251.151.119
+         |###[ DNS Resource Record ]###
+         |  rrname    = 'www.google.com.'
+         |  type      = A
+         |  rclass    = IN
+         |  ttl       = 118
+         |  rdlen     = 4
+         |  rdata     = 142.251.152.119
+         |###[ DNS Resource Record ]###
+         |  rrname    = 'www.google.com.'
+         |  type      = A
+         |  rclass    = IN
+         |  ttl       = 118
+         |  rdlen     = 4
+         |  rdata     = 142.251.156.119
+         |###[ DNS Resource Record ]###
+         |  rrname    = 'www.google.com.'
+         |  type      = A
+         |  rclass    = IN
+         |  ttl       = 118
+         |  rdlen     = 4
+         |  rdata     = 142.251.154.119
+         |###[ DNS Resource Record ]###
+         |  rrname    = 'www.google.com.'
+         |  type      = A
+         |  rclass    = IN
+         |  ttl       = 118
+         |  rdlen     = 4
+         |  rdata     = 142.251.155.119
+        ns        = None
+        ar        = None
+
+>>>
