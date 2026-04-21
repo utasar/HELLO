@@ -1,0 +1,23 @@
+Write a code in java: 
+
+Ua = Collection<Java.Object>
+
+Ua is the universe and it contains collection of java objects.
+
+Things that are type A and type S.
+
+where something can be related to another thing via the relation P(x,y)
+
+Type A and Type S are classes.
+
+Determine whether or not this rule holds for set of object or collection provided by Ua.
+
+∀x ∃y [ (A(x) ∧ S(y) ∧ P(x,y)) → ∀z (P(y,z) ∧ A(z)) ]
+
+
+Four facts:
+P(a,b)
+A(a)
+S(b)
+P(b,a)
+does the rule holds?
